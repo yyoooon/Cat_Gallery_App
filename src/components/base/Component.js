@@ -32,7 +32,6 @@ export default class Component {
   }
 
   render() {
-    console.log(this.$target);
     this.$target.innerHTML = this.template();
     this.mounted();
   }

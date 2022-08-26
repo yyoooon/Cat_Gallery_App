@@ -1,14 +1,27 @@
 import { pushRouter, replaceRouter, popStateRouter } from "./routes/router.js";
 import Component from "./components/base/Component.js";
+import MainPage from "./pages/MainPage.js";
 
 class App extends Component {
   template() {
-    return `<h1>hi</h1>`;
+    return `
+      <nav class="Breadcrumb"></nav>
+      <div class="Nodes"></div>
+    `;
   }
 
-  async route() {
+  route() {
     const { pathname } = window.location;
+    const $nodes = this.$target.querySelector(".Nodes");
+
     if (pathname === "/") {
+      new MainPage({ $target: $nodes });
+    }
+
+    if (pathname.split("/")[2] === "directory") {
+      const [, , , directoryId] = pathname.split("/");
+      new DirectoryPage({ $target: $nodes, props: { id: directoryId } });
+      return;
     }
   }
 
@@ -26,7 +39,9 @@ class App extends Component {
     });
   }
 
-  mounted() {}
+  mounted() {
+    this.setInitRouter();
+  }
 }
 
 export default App;
