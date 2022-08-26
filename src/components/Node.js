@@ -38,12 +38,14 @@ class Node extends Component {
   }
 
   hadleClickDirectory() {
-    const { id } = this.props;
+    const { id, name } = this.props.data;
     push(`/directory/${id}`);
+    // 브레드 크럼 상태에 name추가
+    console.log(name);
   }
 
   hadleClickFile() {
-    const { filePath } = this.props;
+    const { filePath } = this.props.data;
     console.log(filePath);
     // 모달 컴포넌트에 visibilty: true, url: filePath 전달
   }
