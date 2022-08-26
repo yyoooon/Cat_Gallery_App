@@ -1,6 +1,6 @@
 import { push } from "../routes/router.js";
 import Component from "./base/Component.js";
-import { createElement, addClass } from "../utils/createElement";
+import { createElement, addClass } from "../utils/createElement.js";
 
 class Node extends Component {
   setup() {
@@ -9,7 +9,9 @@ class Node extends Component {
   }
 
   template() {
-    const { type, name } = this.props;
+    const { type } = this.props;
+    const { name } = this.props.data;
+
     if (type === "DIRECTORY") {
       return `
         <img src="./assets/directory.png" />
@@ -22,14 +24,16 @@ class Node extends Component {
         <div>${name}</div>
     `;
     }
-    return `
-      <img src="./assets/prev.png" />
-  `;
+    if (type === "PREV") {
+      return `
+        <img src="./assets/prev.png" />
+    `;
+    }
   }
 
   render() {
     this.$node.innerHTML = this.template();
-    this.$target.appendChild(this.Node);
+    this.$target.appendChild(this.$node);
     this.mounted();
   }
 
@@ -60,8 +64,10 @@ class Node extends Component {
         this.hadleClickFile();
         return;
       }
-
-      this.hadleClickPrev();
+      if (type === "PREV") {
+        this.hadleClickPrev();
+        return;
+      }
     });
   }
 }
